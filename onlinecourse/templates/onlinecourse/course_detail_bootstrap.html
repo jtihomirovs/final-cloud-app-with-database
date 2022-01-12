@@ -50,6 +50,40 @@
                     </div>
                 {% endfor %}
             </div>
+
+            <p>
+                <a class="btn btn-primary btn-block mt-2" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                  Start Exam
+                </a>
+              </p>
+              <div class="collapse" id="collapseExample">
+                <div class="card card-body">
+                    <form id="questionform" action="point to a submit view" method="post">
+                        <!-- ... for each question in the course ...-->
+                        {% for lesson in course.lesson_set.all %}
+                            {% for question in lesson.question_set.all %}
+                            <div class="card mt-1">
+                                    <div class="card-header"><h5>{{ question.question_text}}</h5></div>
+                                    {% csrf_token %}
+                                    <div class="form-group ml-2 mt-2">
+                                    <!-- ... for each choice in the question ...-->
+                                    {% for choice in question.choice_set.all %}
+                                        <div class="form-check">
+                                            <label class="form-check-label">
+                                                <input type="checkbox" name="choice_{{choice.id}}"
+                                                    class="form-check-input" id="{{choice.id}}"
+                                                    value="{{choice.id}}">{{ choice.choice_text }}
+                                            </label>
+                                        </div>
+                                    {% endfor %}
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        {% endfor %}
+                        <input class="btn btn-success btn-block mt-2" type="submit" value="Submit">
+                    </form> 
+                </div>
+              </div>
             <!-- Task: show questions and choices -->
             <!-- <HINT> Use Bootstrap Collapse to hide exam first, more details could be found here
             https://www.w3schools.com/bootstrap4/bootstrap_collapse.asp-->
@@ -59,7 +93,7 @@
             A collapse example here:
             <div id="exam" class="collapse">
                 Click to expand elements within the collapse div
-                </div>
+            </div>
 
             -->
 
